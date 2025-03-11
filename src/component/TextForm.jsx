@@ -16,14 +16,21 @@ export default function TextForm() {
     const handleOnChange=(event)=>{
         setText(event.target.value)
     }
+    const handleReverse=()=>{
+      console.log("reversed text")
+       let reverseText=Text.split(" ").reverse().join(" ")
+      setText(reverseText)
+    }
   return (
   <>
   <div className="container my-2">
     <label htmlFor="exampleFormControlTextarea1" className="form-label">Enter Text</label>
     <textarea className="form-control"  onChange={handleOnChange} value={Text} id="exampleFormControlTextarea1" rows="8"></textarea>
-   <div className="buttons mt-3"> <button  type="button" className="btn btn-primary mx-2" onClick={handleUpToLo}>UpperToLower</button>
-    <button  type="button" className="btn btn-primary" onClick={handleLoToUp}>LowerToUpper</button></div>
-  </div>
+   <div className="buttons mt-3">
+     <button  type="button" className="btn btn-primary mx-2" onClick={handleUpToLo}>UpperToLower</button>
+    <button  type="button" className="btn btn-primary mx-2" onClick={handleLoToUp}>LowerToUpper</button>
+    <button  type="button" className="btn btn-primary" onClick={handleReverse}>Reverse</button>
+  </div></div>
   <div className="container my-2">
     <h2>Your Text Summary</h2>
     <p>{Text.split(" ").length} words and {Text.length} characters</p>
