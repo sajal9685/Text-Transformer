@@ -3,13 +3,18 @@ import React, { useState } from "react";
 export default function TextForm() {
   const [Text, setText] = useState("enter text here");
   const [showFindText, setshowFindText] = useState(false);
-  const [findingText, setFindingText] = useState("find");
+  const [showReplaceText, setShowReplaceText] = useState(false);
+  const [findingText, setFindingText] = useState("Find");
+  const [replacedText, setReplacedText] = useState("Replace");
 
   const handleOnTextInput = (event) => {
     setText(event.target.value);
   };
-  const handleOnChange = (event) => {
+  const handleOnFindText = (event) => {
     setFindingText(event.target.value);
+  };
+  const handleOnReplaceText = (event) => {
+    setReplacedText(event.target.value);
   };
   //upperCase
   const handleUpToLo = () => {
@@ -39,16 +44,25 @@ export default function TextForm() {
   //findAndReplace
   const handleFindReplace = () => {
     setshowFindText(true);
-    console.log("found");
+    console.log("start finding...");
   };
   const handleFind = () => {
     if (Text.search(findingText) !== -1) {
       console.log("text find ", findingText);
+      setShowReplaceText(true);
     } else {
       console.log("not-found");
     }
+  
   };
-  //removeSpaces
+  const handleReplace = () => {
+    let updatedText =  Text.replace(new RegExp(findingText, "g"), replacedText);
+    setText(updatedText);
+   console.log("changed",updatedText);
+   
+  };      
+
+  // removeSpaces
   const handleRemoveSpaces = () => {
     let splitText = Text.split(/[ ]+/);
     setText(splitText.join(" "));
@@ -117,11 +131,45 @@ export default function TextForm() {
                 placeholder="Search"
                 aria-label="Search"
                 value={findingText}
-                onChange={handleOnChange}
+                onChange={handleOnFindText}
               />
               <button className="btn btn-outline-success" onClick={handleFind}>
                 Find
               </button>
+              <button className="btn btn-outline-danger" onClick={() => setshowFindText(false)}>
+              ×
+    </button>
+            </div>
+          )}
+            {showReplaceText && (
+            <div
+              style={{
+                position: "fixed",
+                top: "80px",
+                right: "20px",
+                background: "white",
+                padding: "10px",
+                borderRadius: "8px",
+                boxShadow: "0 0 10px rgba(0,0,0,0.2)",
+                display: "flex",
+                gap: "5px",
+                alignItems: "center",
+              }}
+            >
+              <input
+                className="form-control"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+                value={replacedText}
+                onChange={handleOnReplaceText}
+              />
+              <button className="btn btn-outline-success" onClick={handleReplace}>
+                Change
+              </button>
+              <button className="btn btn-outline-danger" onClick={() => setShowReplaceText(false)}>
+              ×
+    </button>
             </div>
           )}
           <button
@@ -136,7 +184,7 @@ export default function TextForm() {
             className="btn btn-primary mx-2"
             onClick={handleRemoveSpaces}
           >
-            RemoveextraSpace
+            RemoveExtraSpace
           </button>
           <button
             type="button"
