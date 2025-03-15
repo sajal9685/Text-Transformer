@@ -7,15 +7,18 @@ export default function TextForm() {
   const [findingText, setFindingText] = useState("Find");
   const [replacedText, setReplacedText] = useState("Replace");
 
+  //onChanging
   const handleOnTextInput = (event) => {
     setText(event.target.value);
   };
   const handleOnFindText = (event) => {
     setFindingText(event.target.value);
   };
+
   const handleOnReplaceText = (event) => {
     setReplacedText(event.target.value);
   };
+
   //upperCase
   const handleUpToLo = () => {
     let newText = Text.toUpperCase();
@@ -53,19 +56,22 @@ export default function TextForm() {
     } else {
       console.log("not-found");
     }
-  
   };
   const handleReplace = () => {
-    let updatedText =  Text.replace(new RegExp(findingText, "g"), replacedText);
+    let updatedText = Text.replace(new RegExp(findingText, "g"), replacedText);
     setText(updatedText);
-   console.log("changed",updatedText);
-   
-  };      
+    console.log("changed", updatedText);
+  };
 
   // removeSpaces
   const handleRemoveSpaces = () => {
     let splitText = Text.split(/[ ]+/);
     setText(splitText.join(" "));
+  };
+  // RemoveSpecialChar
+  const handleRemoveSpecialChar = () => {
+    let specialText =Text.replace(/[^a-zA-Z0-9\s]/g, ' ')
+    setText(specialText)
   };
   return (
     <>
@@ -136,12 +142,15 @@ export default function TextForm() {
               <button className="btn btn-outline-success" onClick={handleFind}>
                 Find
               </button>
-              <button className="btn btn-outline-danger" onClick={() => setshowFindText(false)}>
-              ×
-    </button>
+              <button
+                className="btn btn-outline-danger"
+                onClick={() => setshowFindText(false)}
+              >
+                ×
+              </button>
             </div>
           )}
-            {showReplaceText && (
+          {showReplaceText && (
             <div
               style={{
                 position: "fixed",
@@ -164,12 +173,18 @@ export default function TextForm() {
                 value={replacedText}
                 onChange={handleOnReplaceText}
               />
-              <button className="btn btn-outline-success" onClick={handleReplace}>
+              <button
+                className="btn btn-outline-success"
+                onClick={handleReplace}
+              >
                 Change
               </button>
-              <button className="btn btn-outline-danger" onClick={() => setShowReplaceText(false)}>
-              ×
-    </button>
+              <button
+                className="btn btn-outline-danger"
+                onClick={() => setShowReplaceText(false)}
+              >
+                ×
+              </button>
             </div>
           )}
           <button
@@ -192,6 +207,13 @@ export default function TextForm() {
             onClick={handleCapitalFirst}
           >
             CapitalFirstLetter
+          </button>
+          <button
+            type="button"
+            className="btn btn-primary mx-2 mt-4"
+            onClick={handleRemoveSpecialChar}
+          >
+            RemoveSpecialChar
           </button>
         </div>
       </div>
