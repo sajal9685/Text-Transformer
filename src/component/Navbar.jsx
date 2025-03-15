@@ -1,11 +1,16 @@
-import React from "react";
-
+import React, { useState } from "react";
+import Dropdown from "./Dropdown";
+import { DropdownButton } from "./Dropdown";
 export default function Navbar() {
+  const [showDropdown, setShowDropdown] = useState(false);
+  const toggleDropdown = () => {
+    setShowDropdown((prev) => !prev); 
+  };
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
         <a className="navbar-brand" href="/">
-          TextUtills
+          Text-Transformer
         </a>
         <button
           className="navbar-toggler"
@@ -25,41 +30,13 @@ export default function Navbar() {
                 Home
               </a>
             </li>
-            <li className="nav-item">
-              <a className="nav-link" href="/">
-                Link
-              </a>
-            </li>
             <li className="nav-item dropdown">
-              <a
-                className="nav-link dropdown-toggle"
-                href="/"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Dropdown
-              </a>
-              <ul className="dropdown-menu">
-                <li>
-                  <a className="dropdown-item" href="/">
-                    Action
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="/">
-                    Another action
-                  </a>
-                </li>
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
-                <li>
-                  <a className="dropdown-item" href="/">
-                    Something else here
-                  </a>
-                </li>
-              </ul>
+              <div className="dropdown mx-3 mt-2">
+                <div className="dropdown-container">
+                  <DropdownButton toggleDropdown={toggleDropdown} />
+                  {showDropdown && <Dropdown/>}
+                </div>
+              </div>
             </li>
           </ul>
           <form className="d-flex" role="search">
@@ -78,4 +55,3 @@ export default function Navbar() {
     </nav>
   );
 }
-
