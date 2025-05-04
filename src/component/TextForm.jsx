@@ -10,7 +10,7 @@ export default function TextForm() {
   //onChanging
   const handleOnTextInput = (event) => {
     setText(event.target.value);
-  };
+  };  
   const handleOnFindText = (event) => {
     setFindingText(event.target.value);
   };

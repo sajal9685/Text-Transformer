@@ -1,4 +1,5 @@
 import React from 'react'
+import TextForm from "./TextForm"
 
 
 export  function DropdownButton({ toggleDropdown }) {
@@ -10,7 +11,7 @@ export  function DropdownButton({ toggleDropdown }) {
     );
   }
   export default function Dropdown({handleUpToLo , handleLoToUp , handleReverse ,Text ,setText}) {
-
+  
     return (
      <> <ul className="dropdown-menu show">
         <li className="dropdown-item" onClick={(handleUpToLo)} >UpperToLower </li>
@@ -22,7 +23,8 @@ export  function DropdownButton({ toggleDropdown }) {
         <li className="dropdown-item" onClick={(handleUpToLo)}>FindAndReplace</li>
         
       </ul>
-      
+      <TextForm/> 
       </>
+  
     );
 }
