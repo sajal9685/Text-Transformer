@@ -1,6 +1,7 @@
 import "./App.css";
 import Navbar from "./component/Navbar";
 import TextForm from "./component/TextForm";
+import ImageUpload from "./component/ImageUpload";
 
 function App() {
   return (
@@ -8,6 +9,9 @@ function App() {
       <Navbar />
       <div className="container">
         <TextForm />
+      </div>
+      <div className="container">
+        <ImageUpload/>
       </div>
     </>
   );
