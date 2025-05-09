@@ -1,7 +1,7 @@
 import "./App.css";
 import Navbar from "./component/Navbar";
 import TextForm from "./component/TextForm";
-import ImageUpload from "./component/ImageUpload";
+import ImageUpload from "./app/ImageUpload";
 
 function App() {
   return (
