@@ -1,49 +1,49 @@
 export default function getCroppedImg(imageSrc, crop) {
-    return new Promise((resolve, reject) => {
-      const image = new Image();
-      image.src = imageSrc;
-      image.crossOrigin = "anonymous";
-      image.onload = () => {
-        const canvas = document.createElement("canvas");
-        canvas.width = crop.width;
-        canvas.height = crop.height;
-        const ctx = canvas.getContext("2d");
-  
-        ctx.drawImage(
-          image,
-          crop.x,
-          crop.y,
-          crop.width,
-          crop.height,
-          0,
-          0,
-          crop.width,
-          crop.height
-        );
-  
-        canvas.toBlob((blob) => {
-          if (!blob) {
-            reject(new Error("Canvas is empty"));
-            return;
-          }
-          resolve(blob);
-        }, "image/jpeg");
-      };
-      image.onerror = reject;
-    });
-  }
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.src = imageSrc;
+    image.crossOrigin = "anonymous";
+    image.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = crop.width;
+      canvas.height = crop.height;
+      const ctx = canvas.getContext("2d");
+
+      ctx.drawImage(
+        image,
+        crop.x,
+        crop.y,
+        crop.width,
+        crop.height,
+        0,
+        0,
+        crop.width,
+        crop.height
+      );
+
+      canvas.toBlob((blob) => {
+        if (!blob) {
+          reject(new Error("Canvas is empty"));
+          return;
+        }
+        resolve(blob);
+      }, "image/jpeg");
+    };
+    image.onerror = reject;
+  });
+}
 
 //   import React, { useState, useCallback } from "react";
 //   import Cropper from "react-easy-crop";
 //   import getCroppedImg from "./cropImage"; // Utility to extract the cropped image
-  
+
 //   export default function ImageUpload() {
 //     const [file, setFile] = useState(null); // image URL
 //     const [crop, setCrop] = useState({ x: 0, y: 0 });
 //     const [zoom, setZoom] = useState(1);
 //     const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
 //     const [croppedImage, setCroppedImage] = useState(null);
-  
+
 //     const handleImageUpload = (event) => {
 //       const selectedFile = event.target.files[0];
 //       if (selectedFile) {
@@ -51,11 +51,11 @@ export default function getCroppedImg(imageSrc, crop) {
 //         setCroppedImage(null); // reset on new upload
 //       }
 //     };
-  
+
 //     const onCropComplete = useCallback((_, croppedAreaPixels) => {
 //       setCroppedAreaPixels(croppedAreaPixels);
 //     }, []);
-  
+
 //     const showCroppedImage = useCallback(async () => {
 //       try {
 //         const croppedImg = await getCroppedImg(file, croppedAreaPixels);
@@ -64,12 +64,12 @@ export default function getCroppedImg(imageSrc, crop) {
 //         console.error(e);
 //       }
 //     }, [file, croppedAreaPixels]);
-  
+
 //     return (
 //       <div className="file-upload">
 //         <div className="upload-container">
 //           <input type="file" className="file-input" onChange={handleImageUpload} />
-  
+
 //           {file && !croppedImage && (
 //             <div style={{ position: "relative", width: 300, height: 300 }}>
 //               <Cropper
@@ -86,7 +86,7 @@ export default function getCroppedImg(imageSrc, crop) {
 //               </button>
 //             </div>
 //           )}
-  
+
 //           {croppedImage && (
 //             <div>
 //               <h4>Cropped Image Preview:</h4>
@@ -106,7 +106,7 @@ export default function getCroppedImg(imageSrc, crop) {
 //       const handleImageUpload =(event) =>{
 //           setFile(URL.createObjectURL( event.target.files[0]))
 //       }
-      
+
 //       const handleImageClick =(croppedArea, croppedAreaPixels) =>{
 //           console.log(croppedArea, croppedAreaPixels)
 //       }
@@ -125,11 +125,11 @@ export default function getCroppedImg(imageSrc, crop) {
 //         onZoomChange={setZoom}
 //       />
 //               </div>
-//               <input 
+//               <input
 //               type="file"
 //               className="file-input"
 //               onChange={handleImageUpload}>
-  
+
 //               </input>
 //           </div>
 //           </div>
@@ -148,7 +148,7 @@ export default function getCroppedImg(imageSrc, crop) {
 //     height: 100,
 //     aspect: 16 / 9,
 //   });
-  
+
 //   const [image, setImage] = useState(null);
 //   const [result, setResult]=useState(null);
 //   const imgRef = useRef(null);
@@ -192,9 +192,9 @@ export default function getCroppedImg(imageSrc, crop) {
 //           <input type="file" accept="image/*" onChange={handleFileChange} />
 //         </div>
 
-//         {src && 
+//         {src &&
 //           <div className="col-6">
-           
+
 //             <ReactCrop
 //               src={src}
 //               onImageLoaded={onImageLoaded}

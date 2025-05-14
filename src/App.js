@@ -11,7 +11,7 @@ function App() {
         <TextForm />
       </div>
       <div className="container">
-        <ImageUpload/>
+        <ImageUpload />
       </div>
     </>
   );
