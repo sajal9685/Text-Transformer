@@ -1,6 +1,6 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import Cropper from "react-easy-crop";
-import getCroppedImg from "./cropImage"; // Keep this in the same folder
+import getCroppedImg from "./cropImage"; // This must return a Blob
 
 export default function ImageUpload() {
   const [file, setFile] = useState(null);
@@ -8,64 +8,68 @@ export default function ImageUpload() {
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
   const [finalImage, setFinalImage] = useState(null);
+  const canvasRef = useRef(null);
 
-  const handleImageUpload = (event) => {
-    const selectedFile = event.target.files[0];
+  const handleImageUpload = (e) => {
+    const selectedFile = e.target.files[0];
     if (selectedFile) {
       setFile(URL.createObjectURL(selectedFile));
       setFinalImage(null);
     }
   };
 
-  const onCropComplete = useCallback((_, croppedAreaPixels) => {
-    setCroppedAreaPixels(croppedAreaPixels);
+  const onCropComplete = useCallback((_, areaPixels) => {
+    setCroppedAreaPixels(areaPixels);
   }, []);
 
- const showCroppedImage = useCallback(async () => {
-  try {
-    const croppedBlob = await getCroppedImg(file, croppedAreaPixels);
-    const croppedURL = URL.createObjectURL(croppedBlob);
+  const showCroppedImage = useCallback(async () => {
+    try {
+      const croppedBlob = await getCroppedImg(file, croppedAreaPixels);
+      const croppedURL = URL.createObjectURL(croppedBlob);
 
-    const template = new Image();
-    template.crossOrigin = "anonymous";
-    template.src = "/templates/10.png";
+      const template = new Image();
+      template.crossOrigin = "anonymous";
+      template.src = "/templates/image.png"; // Use your actual path
 
-    template.onload = () => {
-      const cropped = new Image();
-      cropped.crossOrigin = "anonymous";
-      cropped.src = croppedURL;
+      template.onload = () => {
+        const cropped = new Image();
+        cropped.crossOrigin = "anonymous";
+        cropped.src = croppedURL;
 
-      cropped.onload = () => {
-        const canvas = document.getElementById("canvas");
-        const ctx = canvas.getContext("2d");
+        cropped.onload = () => {
+          const canvas = canvasRef.current;
+          const ctx = canvas.getContext("2d");
 
-        canvas.width = template.width;
-        canvas.height = template.height;
+          canvas.width = template.width;
+          canvas.height = template.height;
 
-        ctx.drawImage(template, 0, 0);
+          // Draw template background
+          ctx.drawImage(template, 0, 0);
 
-        const frameX = 185;
-        const frameY = 142;
-        const frameWidth = 390;
-        const frameHeight = 460;
+          // Frame position (must match Canva layout)
+          const frameX = 185;
+          const frameY = 142;
+          const frameWidth = 390;
+          const frameHeight = 460;
 
-        ctx.drawImage(cropped, frameX, frameY, frameWidth, frameHeight);
+          // Insert cropped image into template frame
+          ctx.drawImage(cropped, frameX, frameY, frameWidth, frameHeight);
 
-        canvas.toBlob((blob) => {
-          const url = URL.createObjectURL(blob);
-          setFinalImage(url);
-        });
+          // Output result
+          canvas.toBlob((blob) => {
+            const url = URL.createObjectURL(blob);
+            setFinalImage(url);
+          }, "image/png");
+        };
+
+        cropped.onerror = () => console.error("Error loading cropped image");
       };
 
-      cropped.onerror = (err) => console.error("Error loading cropped image:", err);
-    };
-
-    template.onerror = (err) => console.error("Error loading template image:", err);
-  } catch (e) {
-    console.error("Cropping error:", e);
-  }
-}, [file, croppedAreaPixels]);
-
+      template.onerror = () => console.error("Error loading template image");
+    } catch (e) {
+      console.error("Crop processing failed:", e);
+    }
+  }, [file, croppedAreaPixels]);
 
   return (
     <div style={{ padding: 20 }}>
@@ -73,12 +77,12 @@ export default function ImageUpload() {
 
       {file && !finalImage && (
         <div style={{ position: "relative", width: 300, height: 300, marginTop: 20 }}>
-          <canvas id="canvas" style={{ display: "none" }} />
+          <canvas ref={canvasRef} style={{ display: "none" }} />
           <Cropper
             image={file}
             crop={crop}
             zoom={zoom}
-            aspect={4 / 3}
+            aspect={390 / 460} // Match frame ratio
             onCropChange={setCrop}
             onZoomChange={setZoom}
             onCropComplete={onCropComplete}
