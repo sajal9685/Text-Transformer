@@ -29,7 +29,7 @@ export default function ImageUpload() {
 
       const template = new Image();
       template.crossOrigin = "anonymous";
-      template.src = "/templates/image.png"; // Use your actual path
+      template.src = "/templates/image.png";
 
       template.onload = () => {
         const cropped = new Image();
@@ -47,10 +47,10 @@ export default function ImageUpload() {
           ctx.drawImage(template, 0, 0);
 
           // Frame position (must match Canva layout)
-          const frameX = 185;
-          const frameY = 142;
-          const frameWidth = 390;
-          const frameHeight = 460;
+          const frameX = 303;
+          const frameY = 287;
+          const frameWidth = 900;
+          const frameHeight = 1140;
 
           // Insert cropped image into template frame
           ctx.drawImage(cropped, frameX, frameY, frameWidth, frameHeight);
