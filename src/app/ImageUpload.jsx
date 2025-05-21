@@ -29,7 +29,7 @@ export default function ImageUpload() {
 
       const template = new Image();
       template.crossOrigin = "anonymous";
-      template.src = "/templates/image.png";
+      template.src = "/templates/_Phone Stand Order (75 x 150 mm).png";
 
       template.onload = () => {
         const cropped = new Image();
@@ -47,10 +47,10 @@ export default function ImageUpload() {
           ctx.drawImage(template, 0, 0);
 
           // Frame position (must match Canva layout)
-          const frameX = 303;
-          const frameY = 287;
-          const frameWidth = 900;
-          const frameHeight = 1140;
+          const frameX = 115;
+          const frameY = 285;
+          const frameWidth = 700;
+          const frameHeight = 870;
 
           // Insert cropped image into template frame
           ctx.drawImage(cropped, frameX, frameY, frameWidth, frameHeight);
